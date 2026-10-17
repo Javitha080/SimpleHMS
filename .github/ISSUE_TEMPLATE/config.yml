@@ -1,0 +1,7 @@
+# Keep the default text/blank issues available for special cases, but steer
+# people toward the templates above.
+blank_issues_enabled: false
+contact_links:
+  - name: Question or usage help
+    url: https://github.com/Javitha080/SimpleHMS/discussions
+    about: Ask how to run the app or configure email/database setup.

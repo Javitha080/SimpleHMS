@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish win-x64 zip
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: ver
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag.TrimStart('v')
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Write-Host "Releasing version $version"
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore SimpleHMS.csproj
+
+      - name: Publish (self-contained win-x64)
+        run: >
+          dotnet publish SimpleHMS.csproj
+          --no-restore
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --output publish
+          -p:Version=${{ steps.ver.outputs.version }}
+
+      - name: Zip publish folder
+        shell: pwsh
+        run: |
+          $version = "${{ steps.ver.outputs.version }}"
+          $zip = "SimpleHMS-$version-win-x64.zip"
+          Compress-Archive -Path "publish/*" -DestinationPath $zip -Force
+          Write-Host "Created $zip"
+
+      - name: Create SHA256 checksum
+        shell: pwsh
+        run: |
+          $version = "${{ steps.ver.outputs.version }}"
+          $zip = "SimpleHMS-$version-win-x64.zip"
+          $hash = (Get-FileHash -Path $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  $zip" | Out-File -FilePath SHA256SUMS.txt -Encoding ascii
+          Get-Content SHA256SUMS.txt
+
+      - name: Extract release notes from changelog
+        shell: pwsh
+        run: |
+          $version = "${{ steps.ver.outputs.version }}"
+          $content = Get-Content docs/CHANGELOG.md -Raw
+          $pattern = "(?s)## \[$version\](.*?)(?=## \[|\z)"
+          $match = [regex]::Match($content, $pattern)
+          if ($match.Success) {
+            $notes = $match.Groups[1].Value.Trim()
+          } else {
+            $notes = "Release $version. See docs/CHANGELOG.md for details."
+          }
+          $notes | Out-File -FilePath release-notes.md -Encoding utf8
+
+      - name: Create GitHub Release with artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create ${{ github.ref_name }}
+          SimpleHMS-${{ steps.ver.outputs.version }}-win-x64.zip
+          SHA256SUMS.txt
+          --title "SimpleHMS ${{ steps.ver.outputs.version }}"
+          --notes-file release-notes.md
+
+      - name: Upload zip as workflow artifact (backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimpleHMS-${{ steps.ver.outputs.version }}-win-x64-zip
+          path: |
+            SimpleHMS-*-win-x64.zip
+            SHA256SUMS.txt
+          if-no-files-found: error

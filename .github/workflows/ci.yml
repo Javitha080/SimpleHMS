@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build + unit tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore SimpleHMS.csproj
+
+      - name: Build (Release)
+        run: dotnet build SimpleHMS.csproj --no-restore --configuration Release
+
+      - name: Test project restore
+        run: dotnet restore tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj
+
+      - name: Build tests
+        run: dotnet build tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj --no-restore --configuration Release
+
+      - name: Unit tests
+        run: >
+          dotnet test tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj
+          --no-build --configuration Release
+          --filter "Category!=Integration"
+          --results-directory coverage/ --logger trx
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-results
+          path: |
+            coverage/
+          if-no-files-found: ignore
+
+  integration:
+    name: Integration tests (SQL Server LocalDB)
+    runs-on: windows-latest
+
+    env:
+      # LocalDB is preinstalled on GitHub windows runners; tests provision
+      # SimpleHospitalDB from Database/Setup_SimpleHospitalDB.sql themselves.
+      HMS_CONNECTION_STRING: "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SimpleHospitalDB;Integrated Security=True;TrustServerCertificate=True;"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Ensure LocalDB instance is running
+        run: sqllocaldb start MSSQLLocalDB
+        continue-on-error: true
+
+      - name: Restore
+        run: dotnet restore tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj
+
+      - name: Build tests
+        run: dotnet build tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj --no-restore --configuration Release
+
+      - name: Integration tests
+        run: >
+          dotnet test tests/SimpleHMS.Tests/SimpleHMS.Tests.csproj
+          --no-build --configuration Release
+          --filter "Category=Integration"
+          --results-directory integration-results/ --logger trx
+
+      - name: Upload integration test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-test-results
+          path: |
+            integration-results/
+            tests/**/TestResults/**/*.trx
+          if-no-files-found: ignore

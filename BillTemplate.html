@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Bill - Modern Invoice</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Modern Color Palette */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-alpha: rgba(99, 102, 241, 0.1);
+            
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-mesh: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --gradient-subtle: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            
+            /* Typography Scale */
+            --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            
+            /* Font Sizes - Perfect Fourth Scale */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            
+            /* Spacing Scale */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Neutral Colors */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Glass Effect Variables */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --glass-blur: blur(12px);
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Shadows - Elevated */
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            font-size: var(--text-base);
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, #e0e7ff 0%, #cffafe 50%, #fae8ff 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Background Mesh Gradient */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -2;
+        }
+        
+        /* Blur Overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(100px);
+            -webkit-backdrop-filter: blur(100px);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+        }
+        
+        /* Main Invoice Card with Glassmorphism */
+        .invoice-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Header Section with Gradient */
+        .invoice-header {
+            background: var(--gradient-mesh);
+            padding: var(--space-3xl) var(--space-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Glass Overlay on Header */
+        .header-glass {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-glass);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        
+        .hospital-brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .hospital-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hospital-name {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .invoice-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .header-title {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+        
+        .invoice-title {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .invoice-subtitle {
+            font-size: var(--text-lg);
+            font-weight: 400;
+            opacity: 0.9;
+            letter-spacing: 0.02em;
+        }
+        
+        /* Hospital Contact Info - Glass Card */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-lg);
+            margin-top: var(--space-xl);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--text-sm);
+        }
+        
+        .contact-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        /* Main Content Area */
+        .invoice-body {
+            padding: var(--space-3xl);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Section Headers with Typography */
+        .section-header {
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid transparent;
+            border-image: var(--gradient-primary);
+            border-image-slice: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: var(--text-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--gray-900);
+            letter-spacing: -0.01em;
+        }
+        
+        /* Info Grid with Glass Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .card-title {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary-alpha);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: var(--text-xs);
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .info-value {
+            font-size: var(--text-sm);
+            color: var(--gray-900);
+            font-weight: 600;
+            font-family: var(--font-display);
+        }
+        
+        /* Modern Table with Glassmorphism */
+        .table-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .modern-table thead {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .modern-table th {
+            padding: var(--space-lg);
+            text-align: left;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .modern-table tbody tr {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .modern-table tbody tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .modern-table td {
+            padding: var(--space-lg);
+            font-size: var(--text-sm);
+            color: var(--gray-700);
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .badge-medicine {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .badge-test {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .badge-consultation {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        .badge-other {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--secondary);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .amount {
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        /* Bill Items Table */
+        .bill-items-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        
+        .bill-items-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .bill-items-table th {
+            background: var(--primary-alpha);
+            color: var(--primary-dark);
+            font-weight: 600;
+            text-align: left;
+            padding: var(--space-md);
+            font-size: var(--text-sm);
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .bill-items-table th:first-child {
+            border-top-left-radius: var(--radius-md);
+        }
+        
+        .bill-items-table th:last-child {
+            border-top-right-radius: var(--radius-md);
+            text-align: right;
+        }
+        
+        .bill-items-table td {
+            padding: var(--space-md);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: var(--text-sm);
+        }
+        
+        .bill-items-table td:last-child {
+            text-align: right;
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+        
+        .bill-items-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .bill-items-table tr:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .item-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .item-type-medicine {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .item-type-test {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+        
+        .item-type-service {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: var(--secondary);
+        }
+        
+        .item-type-other {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        /* Summary Section with Blur Effect */
+        .summary-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            font-size: var(--text-base);
+            color: var(--gray-600);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .summary-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+            color: var(--gray-600);
+        }
+        
+        .summary-value {
+            font-family: var(--font-display);
+            font-size: var(--text-base);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .summary-total {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 2px solid var(--primary);
+        }
+        
+        .summary-total .summary-label {
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .summary-total .summary-value {
+            font-size: var(--text-2xl);
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .discount-value {
+            color: var(--error);
+        }
+        
+        /* Payment Status Cards */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .payment-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .payment-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-md);
+            color: white;
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .payment-label {
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .payment-value {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .status-paid {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+        
+        .status-pending {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .status-partial {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .status-refunded {
+            background: linear-gradient(135deg, rgba(107, 114, 128, 0.2) 0%, rgba(107, 114, 128, 0.1) 100%);
+            color: var(--gray-500);
+            border: 1px solid rgba(107, 114, 128, 0.3);
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.2);
+        }
+        
+        /* Notes Section with Gradient Border */
+        .notes-container {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-left: 4px solid var(--warning);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .notes-title {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .notes-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--warning);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: var(--text-sm);
+        }
+        
+        .notes-content {
+            font-size: var(--text-sm);
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+        
+        /* QR Code Section */
+        .qr-section {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .qr-wrapper {
+            display: inline-block;
+            padding: var(--space-lg);
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-md);
+        }
+        
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-mesh);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--text-4xl);
+            font-weight: 700;
+        }
+        
+        .qr-text {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            font-style: italic;
+        }
+        
+        /* Thank You Section */
+        .thank-you {
+            background: var(--gradient-mesh);
+            color: white;
+            padding: var(--space-3xl);
+            text-align: center;
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .thank-you::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .thank-you-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .thank-you-title {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .thank-you-message {
+            font-size: var(--text-lg);
+            opacity: 0.95;
+        }
+        
+        /* Footer */
+        .invoice-footer {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: var(--space-xl);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-text {
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .footer-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-primary);
+            margin: var(--space-md) auto;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            body::before,
+            body::after {
+                display: none;
+            }
+            
+            .invoice-wrapper {
+                box-shadow: none;
+                border: 1px solid var(--gray-200);
+            }
+            
+            .glass-card,
+            .payment-card,
+            .table-container,
+            .summary-container {
+                box-shadow: none;
+                background: white;
+                border: 1px solid var(--gray-200);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-md);
+            }
+            
+            .invoice-header {
+                padding: var(--space-xl);
+            }
+            
+            .invoice-title {
+                font-size: var(--text-3xl);
+            }
+            
+            .invoice-body {
+                padding: var(--space-xl);
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hospital-brand {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .modern-table {
+                font-size: var(--text-xs);
+            }
+            
+            .modern-table th,
+            .modern-table td {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="invoice-wrapper">
+            <!-- Header with Glassmorphism -->
+            <header class="invoice-header">
+                <div class="header-glass"></div>
+                <div class="header-content">
+                    <div class="hospital-brand">
+                        <div class="hospital-logo">
+                            <div class="logo-icon">H+</div>
+                            <div class="hospital-name">MediCare Plus</div>
+                        </div>
+                        <div class="invoice-badge">Invoice #{BillNumber}</div>
+                    </div>
+                    
+                    <div class="header-title">
+                        <h1 class="invoice-title">HOSPITAL BILL</h1>
+                        <p class="invoice-subtitle">Excellence in Healthcare Services</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <span>123 Medical Center Drive, Healthcare City</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <span>(123) 456-7890</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <span>billing@medicare.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🌐</div>
+                            <span>www.medicareplus.com</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content -->
+            <main class="invoice-body">
+                <!-- Bill Information Section -->
+                <div class="section-header">
+                    <div class="section-icon">📋</div>
+                    <h2 class="section-title">Bill Information</h2>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <div class="card-icon">🏥</div>
+                            Bill Details
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Bill Number</span>
+                            <span class="info-value">{BillNumber}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Bill Date</span>
+                            <span class="info-value">{BillDate}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Due Date</span>
+                            <span class="info-value">{DueDate}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <div class="card-icon">👤</div>
+                            Patient Information
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Patient Name</span>
+                            <span class="info-value">{PatientName}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Patient ID</span>
+                            <span class="info-value">{PatientID}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Age/Gender</span>
+                            <span class="info-value">{AgeGender}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <div class="card-title">
+                            <div class="card-icon">👨‍⚕️</div>
+                            Doctor Information
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Doctor Name</span>
+                            <span class="info-value">{DoctorName}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Department</span>
+                            <span class="info-value">{Department}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bill Items Section -->
+                <div class="section-header">
+                    <div class="section-icon">📝</div>
+                    <h2 class="section-title">Itemized Bill</h2>
+                </div>
+                
+                <div class="bill-items-container">
+                    <table class="bill-items-table">
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {BillItems}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Section -->
+                <div class="summary-container">
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <span class="summary-icon">💊</span>
+                            Medicine Fee
+                        </span>
+                        <span class="summary-value">${MedicineFee}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <span class="summary-icon">🔬</span>
+                            Laboratory Fee
+                        </span>
+                        <span class="summary-value">${TestFee}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <span class="summary-icon">👨‍⚕️</span>
+                            Consultation Fee
+                        </span>
+                        <span class="summary-value">${ConsultationFee}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <span class="summary-icon">➕</span>
+                            Other Charges
+                        </span>
+                        <span class="summary-value">${OtherFee}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <span class="summary-icon">💰</span>
+                            Discount
+                        </span>
+                        <span class="summary-value discount-value">-${Discount}</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span class="summary-label">Total Amount</span>
+                        <span class="summary-value">${TotalAmount}</span>
+                    </div>
+                </div>
+                
+                <!-- Payment Information -->
+                <div class="section-header">
+                    <div class="section-icon">💳</div>
+                    <h2 class="section-title">Payment Information</h2>
+                </div>
+                
+                <div class="payment-grid">
+                    <div class="payment-card">
+                        <div class="payment-icon-wrapper">💵</div>
+                        <div class="payment-label">Payment Method</div>
+                        <div class="payment-value" id="payment-method-value">{PaymentMethod}</div>
+                    </div>
+                    
+                    <div class="payment-card">
+                        <div class="payment-icon-wrapper">📅</div>
+                        <div class="payment-label">Payment Date</div>
+                        <div class="payment-value">{PaymentDate}</div>
+                    </div>
+                    
+                    <div class="payment-card">
+                        <div class="payment-icon-wrapper">✓</div>
+                        <div class="payment-label">Payment Status</div>
+                        <div class="payment-value">
+                            <span class="status-badge status-{PaymentStatusClass}">{PaymentStatus}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes Section -->
+                <div class="notes-container">
+                    <div class="notes-title">
+                        <span class="notes-icon">!</span>
+                        Important Notes
+                    </div>
+                    <div class="notes-content">
+                        {Notes}
+                    </div>
+                </div>
+                
+                <!-- QR Code Section -->
+                <div class="qr-section">
+                    <div class="qr-wrapper">
+                        <div class="qr-placeholder">QR</div>
+                    </div>
+                    <p class="qr-text">Scan to verify authenticity and pay online</p>
+                </div>
+                
+                <!-- Thank You Message -->
+                <div class="thank-you">
+                    <div class="thank-you-content">
+                        <h3 class="thank-you-title">Thank You for Choosing MediCare Plus</h3>
+                        <p class="thank-you-message">We wish you good health and speedy recovery</p>
+                    </div>
+                </div>
+            </main>
+            
+            <!-- Footer -->
+            <footer class="invoice-footer">
+                <p class="footer-text">This is a computer-generated document and does not require a signature</p>
+                <div class="footer-divider"></div>
+                <p class="footer-text">© 2024 MediCare Plus Hospital. All rights reserved.</p>
+                <p class="footer-text">Emergency Hotline: 911 | Support: support@medicare.com</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

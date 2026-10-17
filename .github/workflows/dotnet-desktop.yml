@@ -1,0 +1,17 @@
+# Superseded by ci.yml (build + unit tests + SQL LocalDB integration tests).
+# Kept as a manual-only no-op so old links don't trigger duplicate builds.
+# This file can be deleted once nobody relies on it.
+name: Legacy desktop build (superseded)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nothing to do
+        run: echo "This workflow was superseded by ci.yml."

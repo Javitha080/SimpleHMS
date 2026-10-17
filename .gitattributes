@@ -1,0 +1,34 @@
+# Normalize line endings: LF in the repository everywhere, CRLF on Windows checkouts.
+* text=auto
+
+# Text sources
+*.cs          text diff=csharp
+*.csproj      text
+*.sln         text
+*.md          text
+*.html        text
+*.json        text
+*.sql         text
+*.yml         text
+*.yaml        text
+*.xml         text
+*.resx        text
+*.config      text
+*.editorconfig text
+*.gitignore   text
+*.gitattributes text
+
+# Windows scripts keep CRLF
+*.bat         text eol=crlf
+*.ps1         text eol=crlf
+
+# Binary assets (embedded in .resx forms / application icon)
+*.png         binary
+*.ico         binary
+*.jpg         binary
+*.jpeg        binary
+*.gif         binary
+*.pdf         binary
+*.zip         binary
+*.exe         binary
+*.dll         binary

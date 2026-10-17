@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.6.0</Version>
+    <Product>SimpleHMS</Product>
+    <Description>Hospital management for small clinics: patients, doctors, appointments, and billing with PDF and email receipts.</Description>
+    <Authors>Javitha080</Authors>
+    <Copyright>Copyright (c) 2026 Javitha080</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Javitha080/SimpleHMS</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SimpleHMS.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IronPdf" Version="2025.10.8" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BillTemplate.html" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Database\**\*.sql" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
