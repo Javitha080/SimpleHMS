@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- The test project owns tests/; without this the default **/*.cs
+         glob pulls xUnit sources into the app build (no xunit reference). -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests/**</DefaultItemExcludes>
     <Version>1.6.0</Version>
     <Product>SimpleHMS</Product>
     <Description>Hospital management for small clinics: patients, doctors, appointments, and billing with PDF and email receipts.</Description>
