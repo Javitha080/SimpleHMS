@@ -31,7 +31,7 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Restore
-        run: dotnet restore SimpleHMS.csproj
+        run: dotnet restore SimpleHMS.csproj --runtime win-x64
 
       - name: Publish (self-contained win-x64)
         run: >
