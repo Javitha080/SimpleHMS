@@ -26,7 +26,7 @@ jobs:
           Write-Host "Releasing version $version"
 
       - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 9.0.x
 
