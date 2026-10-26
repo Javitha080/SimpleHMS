@@ -66,8 +66,8 @@ namespace SimpleHMS.Tests.Integration
 
             // Delete removed the row again.
             DataTable remaining = PatientRepository.GetAll();
-            Assert.False(remaining.Rows.OfType<DataRow>()
-                .Any(row => Convert.ToInt32(row["PatientID"]) == patientId));
+            Assert.DoesNotContain(remaining.Rows.OfType<DataRow>(),
+                row => Convert.ToInt32(row["PatientID"]) == patientId);
         }
     }
 }

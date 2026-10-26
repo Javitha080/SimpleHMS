@@ -28,17 +28,17 @@ namespace SimpleHMS.Tests.Integration
     // once for all tests that actually execute. The script is idempotent.
     public sealed class DatabaseFixture
     {
-        private static readonly Lazy<(bool Ok, string Message)?> Provision = new(
-            () => new(DatabaseManager.ProvisionDatabase()),
+        private static readonly Lazy<(bool Success, string Message)> Provision = new(
+            () => DatabaseManager.ProvisionDatabase(),
             LazyThreadSafetyMode.ExecutionAndPublication);
 
         public void EnsureProvisioned()
         {
-            (bool ok, string message)? attempt = Provision.Value;
+            (bool success, string message) attempt = Provision.Value;
 
-            if (attempt is not { Ok: true })
+            if (!attempt.success)
                 throw new InvalidOperationException(
-                    $"Could not provision {DatabaseManager.DatabaseName}: {attempt?.Message}");
+                    $"Could not provision {DatabaseManager.DatabaseName}: {attempt.message}");
         }
     }
 
