@@ -63,7 +63,7 @@ shipping: xUnit tests, CI/CD, packaging).
 - README: first-run setup, email configuration section, updated structure/roadmap.
 - ARCHITECTURE and DATABASE updated for the new services/flow; this file.
 
-## v1.5
+## [1.5.0]
 
 ### Security
 - **Hashed passwords.** Users' passwords are now verified with PBKDF2-SHA256
