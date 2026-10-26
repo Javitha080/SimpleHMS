@@ -85,7 +85,7 @@ jobs:
           --notes-file release-notes.md
 
       - name: Upload zip as workflow artifact (backup)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SimpleHMS-${{ steps.ver.outputs.version }}-win-x64-zip
           path: |
